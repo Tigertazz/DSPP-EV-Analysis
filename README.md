@@ -102,8 +102,25 @@ This led me to the question: **Which EV offers the best value for money for the 
 
 2. **Data Analysis:**
     - The cleaned data was analyzed using Power BI to visualize trends, identify outliers, and conduct linear regression analysis.
+    - A dimension table for manufacturers was created to streamline the analysis and avoid data duplication. 
     - Vehicles were grouped by manufacturer to assess their efficiency and suitability for the average UK commuter.
     - Key metrics included vehicle range, price, and efficiency (measured in miles per kilowatt-hour, Mi/KWh).
+      ![General Manufacturer Data](./Images/Power%20BI%20Screenshots/Manufaturer%20Statistics%20small%20view.png)
+      This shows metrics of each manufacturer, such as number of models, range and price.
+      
+      ![Average EV Price Vs Average UK Salary](./Images/Power%20BI%20Screenshots/EV%20Cost%20vs%20Average%20UK%20Salary.png)
+      Average EV Price Vs Average UK Salary
+
+      ![Cost VS Range](./Images/Power%20BI%20Screenshots/EV%20Cost%20vs%20Average%20UK%20Salary.png)
+      Showing how the cost of the EV is directly correlated with it range. With the main cost of the EV being related to its Battery, an increase in capactiy will drive a cost increase but also a range increase at the same time.
+
+      ![Cost Vs Efficiency](./Images/Power%20BI%20Screenshots/Cost%20vs%20Efficiency.png)
+      ![Cost Vs Efficiency (Outliers Removed)](./Images/Power%20BI%20Screenshots/Cost%20vs%20Efficiency%20Outliers%20Removed.png)
+      These show how the EV efficency is inversely correlated to its cost. Larger vehicles equate to more weight and so more energy requirement from the battery
+      The removal of outliers from the 2nd chart enhances the linear regression r-squared value that was lowered due to the "luxery" brands.
+
+      ![Commutes Per Recharge](./Images/Power%20BI%20Screenshots/Commutes%20Per%20Recharge.png)
+      This final image shows how many commutes each car can complete before it woud have to be recharged. This assumes an Average UK commute distance of 19.5 Mi and that the battery would be 0%
 
 ### Results
 
@@ -120,6 +137,10 @@ The analysis revealed that while every EV has a place in the market, some are be
 
 While the data-driven analysis identified several strong contenders, personal preference ultimately influenced my final decision. Despite the data pointing to other options, I chose the **Kia EV6** due to its appealing design and sufficient range (over 250 miles), allowing for 6.0 commuter trips before requiring a recharge.
 
+![EV6](./Images/EV6.jpg)
+
+**Happy Driving**
+
 ## Project Background
 
 The UK's rapid transition to electric vehicles is reshaping the automotive landscape, with manufacturers racing to electrify their fleets by 2035. However, the higher costs of EVs and concerns about "Range Anxiety" still present challenges for consumers. This project aimed to determine which EV offers the best value for money for the average UK worker, using objective data analysis rather than relying on manufacturer claims or media reviews.
@@ -132,16 +153,4 @@ The UK's rapid transition to electric vehicles is reshaping the automotive lands
   - Raw data from Kaggle, including current EV manufacturers, vehicles, capacity, range, and pricing.
   - UK commuter statistics from the Department for Transport.
 
-### Data Preparation
-
-- Data was imported into Python, with columns renamed for ease of programming and readability.
-- Ranges were converted from kilometers to miles.
-- Pricing data was cleaned of currency markers to allow for aggregation.
-- Additional fields, such as Mi/KWh and Efficiency vs. Cost, were created, though only Mi/KWh was used in the final Power BI analysis.
-
-### Data Analysis
-
-- Visualizations in Power BI highlighted variations among manufacturers, with a focus on price, range, and efficiency.
-- Linear regression analysis was used to map correlations between these metrics.
-- A dimension table for manufacturers was created to streamline the analysis and avoid data duplication.
 

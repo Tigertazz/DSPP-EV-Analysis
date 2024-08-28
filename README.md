@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-The UK is undergoing a transformative shift from internal combustion engine (ICE) vehicles to electric vehicles (EVs) as part of its commitment to achieving net-zero carbon emissions by 2050 (HM Government, 2021). This transition is driven by government policies, market dynamics, infrastructure development, and the need to reduce environmental impact.
+The UK is undergoing a transformative shift from internal combustion engine (ICE) vehicles to electric vehicles (EVs) as part of its commitment to achieving net-zero carbon emissions by 2050 ([HM Government, 2021](https://assets.publishing.service.gov.uk/media/6194dfa4d3bf7f0555071b1b/net-zero-strategy-beis.pdf)). This transition is driven by government policies, market dynamics, infrastructure development, and the need to reduce environmental impact.
 
 Manufacturers have embraced this strategy with many of them planning to electrify their lineups before 2035. However, the cost of EVs is higher than that of their ICE counterparts, and their current capacity also leaves owners with "Range Anxiety."
 

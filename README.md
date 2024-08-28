@@ -1,3 +1,7 @@
+Here’s how you can integrate the provided Python code into the project description at the appropriate points:
+
+---
+
 # Electric Vehicle Efficiency Evaluation
 
 ## Executive Summary
@@ -12,7 +16,93 @@ This led me to the question: **Which EV offers the best value for money for the 
 
 1. **Data Collection and Preparation:**
     - Data was sourced from the [Electric Vehicle Dataset 2024 on Kaggle](https://www.kaggle.com/datasets/vanillatyy1/electric-vehicle-dataset) and the [UK Department for Transport](https://www.gov.uk/government/statistics/transport-statistics-great-britain-2022/transport-statistics-great-britain-2022-domestic-travel).
-    - The dataset was ingested into Python using the Pandas library. Data was cleaned, adjusted for UK-specific metrics (e.g., converting kilometers to miles), and filtered to include only vehicles available for sale in the UK with listed prices.
+    - The dataset was ingested into Python using the Pandas library:
+
+    ```python
+    import pandas as pd
+
+    # Load the dataset
+    file_path = 'C:\\Users\\HUCC\\Downloads\\cars_data_RAW (1).csv'
+    df = pd.read_csv(file_path)
+    ```
+
+    - Columns were renamed for better readability:
+
+    ```python
+    # Rename columns for better readability
+    df.columns = [
+        'Row_ID', 'Title', 'Model', 'Battery', 'Price_Range', '0-100_Acceleration',
+        'Top_Speed', 'Range', 'Efficiency', 'Fastcharge', 'Germany_Price', 
+        'Netherlands_Price', 'UK_Price', 'Drive_Configuration', 'Tow_Hitch', 
+        'Towing_Capacity', 'Number_of_Seats'
+    ]
+    ```
+
+    - The 'Range' column was cleaned to ensure numeric values and converted from kilometers to miles:
+
+    ```python
+    # Clean the 'Range' column to ensure numeric values and convert from KM to MI
+    df['Range'] = df['Range'].str.extract('(\d+)').astype(float) * 0.621371
+    ```
+
+    - Data was then grouped by manufacturer to calculate metrics such as the number of models, average battery capacity, and average cost:
+
+    ```python
+    # Number of different models by each manufacturer
+    model_count = df.groupby('Title')['Model'].nunique()
+
+    # Average battery capacity for each manufacturer
+    avg_battery_capacity = df.groupby('Title')['Battery'].mean()
+
+    # Function to transform and remove currency symbols to allow for aggregate functions to be applied later
+    def clean_currency(value):
+        if isinstance(value, str):
+            value = value.replace('€', '').replace('£', '').replace(',', '').replace('*', '').strip()
+            try:
+                return float(value)
+            except ValueError:
+                return pd.NA
+        elif isinstance(value,(int, float)):
+            return value
+        else:
+            pd.NA
+
+    # Average cost for each manufacturer
+    df['UK_Price'] = df['UK_Price'].apply(clean_currency)
+
+    avg_cost = df.groupby('Title')['UK_Price'].mean()
+
+    # Average mileage (Range) for each manufacturer
+    avg_mileage = df.groupby('Title')['Range'].mean()
+
+    # Average miles per kWh (Efficiency) for each manufacturer
+    mi_kwh = avg_mileage/avg_battery_capacity
+
+    # Efficiency vs Cost
+    ef_v_cost = avg_cost/mi_kwh
+    ```
+
+    - Finally, all results were combined into a single DataFrame for better readability and exported for further visualization:
+
+    ```python
+    # Combine all results into a single DataFrame for better readability
+    results = pd.DataFrame({
+        'Model Count': model_count,
+        'Average Battery Capacity': avg_battery_capacity,
+        'Average Cost': avg_cost,
+        'Average Mileage': avg_mileage,
+        'Average Mi/kWh': mi_kwh,
+        'Efficiency vs Cost': ef_v_cost
+    }).reset_index()
+
+    results = results.dropna(subset=['Average Cost'])
+
+    # Export the file for better and more efficient visualizations in PBIX
+    file_path = "C:\\Users\\HUCC\\OneDrive - Direct Line Group\\Apprenticeship Work\\Term 3\\Data Science, M5, Data Professional Practice\\Public Data\\"
+    filname = "Electric Car Analysis.xlsx"
+
+    results.to_excel(file_path + filname, index=False)
+    ```
 
 2. **Data Analysis:**
     - The cleaned data was analyzed using Power BI to visualize trends, identify outliers, and conduct linear regression analysis.
@@ -49,7 +139,6 @@ The UK's rapid transition to electric vehicles is reshaping the automotive lands
 ### Data Preparation
 
 - Data was imported into Python, with columns renamed for ease of programming and readability.
-  
 - Ranges were converted from kilometers to miles.
 - Pricing data was cleaned of currency markers to allow for aggregation.
 - Additional fields, such as Mi/KWh and Efficiency vs. Cost, were created, though only Mi/KWh was used in the final Power BI analysis.
@@ -60,10 +149,3 @@ The UK's rapid transition to electric vehicles is reshaping the automotive lands
 - Linear regression analysis was used to map correlations between these metrics.
 - A dimension table for manufacturers was created to streamline the analysis and avoid data duplication.
 
-## Conclusion
-
-The analysis demonstrated that while there is a market for all EVs studied, not all are equally suited for the average UK commuter. The final recommendations narrowed down the best options to those that balance cost, range, and efficiency. Despite these findings, personal preference played a significant role in my final decision to purchase a **Kia EV6**. This vehicle offered a compelling combination of design, range, and practicality for daily commuting needs.
-
----
-
-This project serves as a guide for those seeking to find the most efficient electric vehicle for their needs, based on objective data analysis rather than marketing claims.
